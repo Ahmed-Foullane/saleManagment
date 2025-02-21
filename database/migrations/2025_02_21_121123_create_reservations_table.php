@@ -13,15 +13,13 @@ return new class extends Migration
      */
     public function up()
     {
-
-        Schema::create('users', function (Blueprint $table) {
+        Schema::create('reservations', function (Blueprint $table) {
             $table->id();
-            $table->string('name');
-            $table->string('email')->unique();
-            $table->timestamp('email_verified_at')->nullable();
-            $table->string('password');
-            $table->foreignId('role_id')->default(1)->constrained('roles'); // Fixed line
-            $table->rememberToken();
+            $table->foreignId('salle_id')->constrained();
+            $table->foreignId('user_id')->constrained('users'); // Will be used later with auth
+            $table->datetime('start_time');
+            $table->datetime('end_time');
+            $table->string('status')->default('pending');
             $table->timestamps();
         });
     }
@@ -33,6 +31,6 @@ return new class extends Migration
      */
     public function down()
     {
-        Schema::dropIfExists('users');
+        Schema::dropIfExists('reservations');
     }
 };

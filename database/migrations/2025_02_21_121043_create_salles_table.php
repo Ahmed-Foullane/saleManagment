@@ -13,16 +13,14 @@ return new class extends Migration
      */
     public function up()
     {
-
-        Schema::create('users', function (Blueprint $table) {
+        Schema::create('salles', function (Blueprint $table) {
             $table->id();
-            $table->string('name');
-            $table->string('email')->unique();
-            $table->timestamp('email_verified_at')->nullable();
-            $table->string('password');
-            $table->foreignId('role_id')->default(1)->constrained('roles'); // Fixed line
-            $table->rememberToken();
             $table->timestamps();
+            $table->string('nom');
+            $table->text('description');
+            $table->decimal('prix', 8, 2); // Instead of float
+            $table->enum('status', ['pending', 'confirmed', 'cancelled'])->default('pending');
+            $table->integer('nbr_places')->default(0);
         });
     }
 
@@ -33,6 +31,6 @@ return new class extends Migration
      */
     public function down()
     {
-        Schema::dropIfExists('users');
+        Schema::dropIfExists('salles');
     }
 };
